@@ -19,6 +19,11 @@ app.use(templateRoutes)
 app.use(chatgptRoutes)
 app.use(stripeRoutes)
 
+
+app.get("/", (req, res) =>{
+  res.send('<h1>Notegenie</h1>');
+});
+
 app.listen(process.env.PORT, () => {
   console.log(`server running at http://127.0.0.1:${process.env.PORT}`)
 })
