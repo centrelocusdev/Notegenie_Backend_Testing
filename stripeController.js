@@ -39,11 +39,8 @@ exports.handleWebhook = async (req, res) => {
     // console.log("details", details);
 
     switch (eventType) {
-        case "checkout.session.completed":
-            // console.log("in the checkout session");
-        break;
         case "invoice.payment_succeeded":
-            console.log("in the update");
+            // console.log("in the update");
             if(details.status === 'paid'){
                 const email = details.customer_email;
                 let user = await User.findOne({ email: email });
@@ -77,7 +74,7 @@ exports.handleWebhook = async (req, res) => {
             }
         break;
         default:
-        return res.status(400).end();
+        return res.status(200).end();
     }
     
  }catch (err) {
