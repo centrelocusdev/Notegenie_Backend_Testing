@@ -74,9 +74,9 @@ exports.handleWebhook = async (req, res) => {
             }
         break;
         default:
-          console.log(`Unhandled event type ${eventType}`);
+          return res.status(400).end();
     }
-    res.status(200).json({"status": "success"})
+    res.sendStatus(200);
  }catch (err) {
     res.status(400).json({
       status: "fail",
