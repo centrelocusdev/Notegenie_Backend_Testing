@@ -74,6 +74,7 @@ exports.handleWebhook = async (req, res) => {
             }
         break;
         default:
+          console.log("end");
           return res.status(400).end();
     }
     res.sendStatus(200);
