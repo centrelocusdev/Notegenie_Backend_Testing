@@ -1,0 +1,6 @@
+There is one backend url in frontend.
+There is one Stripe key in frontend.
+
+There are 2 webhook secret. one for live and one for testing in local by stripe cli.
+There is one backend url in package.json for stripe. we have to change this in local testing.
+We have to do stripe login in local at the time of testing to see consoles of webhooks calls.

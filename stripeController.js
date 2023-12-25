@@ -20,8 +20,8 @@ exports.handleWebhook = async (req, res) => {
         );
         // console.log("event" , event);
       } catch (err) {
-        console.log(err);
-        console.log(`⚠️  Webhook signature verification failed.`);
+        // console.log(err);
+        // console.log(`⚠️  Webhook signature verification failed.`);
         return res.status(400).json({
           status: "fail",
           message: "⚠️  Webhook signature verification failed.",
@@ -58,19 +58,19 @@ exports.handleWebhook = async (req, res) => {
                 const subs_started = new Date(subs.created * 1000);
 
                 //save data to db
-                // console.log(subs_id , subs, subs_status, subs_started);
+                // console.log(subs_id , subs, subs_status, subs_started , user);
                 const result = await User.updateOne(
                     { _id: user._id },
                     {
                       $set: {
-                        subs_id: subs_id,
-                        subs_started_at: subs_started,
-                        subs_status: subs_status,
-                        subs_plan: plan
+                        subs_id: "27373773763",
+                        subs_started_at: "2023-12-12",
+                        subs_status: "bhavya",
+                        subs_plan: "bhavya"
                       },
                     }
                   );
-                //   console.log(result);
+                  // console.log(result);
             }
         break;
         default:
