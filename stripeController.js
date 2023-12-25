@@ -63,10 +63,10 @@ exports.handleWebhook = async (req, res) => {
                     { _id: user._id },
                     {
                       $set: {
-                        subs_id: "27373773763",
-                        subs_started_at: "2023-12-12",
-                        subs_status: "bhavya",
-                        subs_plan: "bhavya"
+                        subs_id: subs_id,
+                        subs_started_at: subs_started,
+                        subs_status: subs_status,
+                        subs_plan: plan
                       },
                     }
                   );
