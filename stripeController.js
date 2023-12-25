@@ -55,7 +55,9 @@ exports.handleWebhook = async (req, res) => {
                 const subs_id = details.subscription;
                 const subs = await stripe.subscriptions.retrieve(subs_id)
                 const subs_status = subs.status
-                const subs_started = new Date(subs.created * 1000);
+                // const subs_started = new Date(subs.created * 1000);
+                const currentDate = new Date();
+                const subs_started = currentDate.toISOString();
 
                 //save data to db
                 console.log(subs_id , subs, subs_status, subs_started , user);
