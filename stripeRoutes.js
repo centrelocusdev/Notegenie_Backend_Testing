@@ -258,9 +258,9 @@ router.post("/create-subscription", async (req, res) => {
   try {
     const { userId, plan } = req.body;
     // console.log(userId, plan);
-    const user = await User.findById(user);
+    const user = await User.findById(userId);
     if(user && user.subs_status && user.subs_status === 'active'){
-      const subs = await cancelSubscription(userId);
+      const subs = await cancelSubscription(user);
       user.subs_status = subs.status
       await user.save()
     }
@@ -318,7 +318,7 @@ async function cancelSubscription(user){
 router.post("/cancel-subscription", async (req, res) => {
   try {
     const { userId} = req.body
-    const user = await User.findById(user)
+    const user = await User.findById(userId)
     const subs = await cancelSubscription(user);
     user.subs_status = subs.status
     await user.save()
