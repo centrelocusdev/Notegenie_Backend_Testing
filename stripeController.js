@@ -34,13 +34,13 @@ exports.handleWebhook = async (req, res) => {
       eventType = req.body.type;
     //   console.log("data" , data);
     }
-    console.log("event type" , eventType);
+    // console.log("event type" , eventType);
     details = event.data.object;
-    console.log("details", details);
+    // console.log("details", details);
 
     switch (eventType) {
         case "invoice.payment_succeeded":
-            console.log("in the update");
+            // console.log("in the update");
             if(details.status === 'paid'){
                 const email = details.customer_email;
                 let user = await User.findOne({ email: email });
@@ -60,7 +60,7 @@ exports.handleWebhook = async (req, res) => {
                 const subs_started = currentDate.toISOString();
 
                 //save data to db
-                console.log(subs_id , subs, subs_status, subs_started , user);
+                // console.log(subs_id , subs, subs_status, subs_started , user);
                 const result = await User.updateOne(
                     { _id: user._id },
                     {
@@ -68,15 +68,16 @@ exports.handleWebhook = async (req, res) => {
                         subs_id: subs_id,
                         subs_started_at: subs_started,
                         subs_status: subs_status,
-                        subs_plan: plan
+                        subs_plan: plan,
+                        note_count:0
                       },
                     }
                   );
-                  console.log(result);
+                  // console.log(result);
             }
         break;
         default:
-          console.log("end");
+          // console.log("end");
           return res.status(400).end();
     }
     res.sendStatus(200);

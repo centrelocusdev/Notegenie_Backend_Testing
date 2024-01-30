@@ -19,6 +19,11 @@ router.get("/user/:token", async (req, res) => {
 //signup
 router.post("/register", async (req, res) => {
   try {
+    const isUserExist = await User.findOne({email:req.body.email});
+    if(isUserExist){
+      throw new Error("User already exists with this email ID!");
+    }
+    
     const user = new User(req.body);
     await user.generateAuthToken();
 
