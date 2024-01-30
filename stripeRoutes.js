@@ -258,7 +258,12 @@ router.post("/create-subscription", async (req, res) => {
   try {
     const { userId, plan } = req.body;
     // console.log(userId, plan);
-    const user = await User.findById(userId);
+    const user = await User.findById(user);
+    if(user && user.subs_status && user.subs_status === 'active'){
+      const subs = await cancelSubscription(userId);
+      user.subs_status = subs.status
+      await user.save()
+    }
 
     let priceId;
     if (plan == "basic") priceId = process.env.BASIC_PRICE_ID_ONEDAY_TEST;
@@ -301,12 +306,20 @@ router.post("/subscription", async (req, res) => {
   }
 });
 
+async function cancelSubscription(user){
+  try{
+    const subs = await stripe.subscriptions.cancel(user.subs_id);
+    return subs;
+  }catch(err){
+    console.log(err);
+  }
+  
+}
 router.post("/cancel-subscription", async (req, res) => {
   try {
     const { userId} = req.body
-    const user = await User.findById(userId)
-    const subs = await stripe.subscriptions.cancel(user.subs_id);
-
+    const user = await User.findById(user)
+    const subs = await cancelSubscription(user);
     user.subs_status = subs.status
     await user.save()
     res.status(200).send({ status: "success", message: 'Your subscription has been canceled'});
