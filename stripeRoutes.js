@@ -74,7 +74,7 @@ router.get("/create-price", async (req,res) => {
         // console.log(userId, plan);
         const user = await User.findById(userId);
         if(user && user.subs_status && user.subs_status === 'active'){
-          const subs = await cancelSubscription(user);
+          const subs = await cancelSubscription(userId);
           user.subs_status = subs.status
           await user.save()
         }
