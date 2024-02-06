@@ -2,7 +2,7 @@ const stripe = require("stripe")(process.env.STRIPE_PERSONAL_SECRET);
 const User = require("./userModal");
 
 exports.handleWebhook = async (req, res) => {
-    // console.log("in the webhook");
+    console.log("in the webhook");
  try{
     const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
     // console.log(webhookSecret);
@@ -10,7 +10,7 @@ exports.handleWebhook = async (req, res) => {
     let eventType;
     if (webhookSecret) {
       let signature = req.headers["stripe-signature"];
-    //   console.log(signature, "signature");
+      console.log(signature, "signature");
     //   console.log("body" ,req.body);
       try {
         event = stripe.webhooks.constructEvent(
@@ -20,7 +20,7 @@ exports.handleWebhook = async (req, res) => {
         );
         // console.log("event" , event);
       } catch (err) {
-        // console.log(err);
+        console.log(err);
         // console.log(`⚠️  Webhook signature verification failed.`);
         return res.status(400).json({
           status: "fail",
@@ -32,15 +32,15 @@ exports.handleWebhook = async (req, res) => {
     } else {
       data = req.body.data;
       eventType = req.body.type;
-    //   console.log("data" , data);
+      console.log("data" , data);
     }
-    // console.log("event type" , eventType);
+    console.log("event type" , eventType);
     details = event.data.object;
-    // console.log("details", details);
+    console.log("details", details);
 
     switch (eventType) {
         case "invoice.payment_succeeded":
-            // console.log("in the update");
+            console.log("in the update");
             if(details.status === 'paid'){
                 const email = details.customer_email;
                 let user = await User.findOne({ email: email });
@@ -60,7 +60,7 @@ exports.handleWebhook = async (req, res) => {
                 const subs_started = currentDate.toISOString();
 
                 //save data to db
-                // console.log(subs_id , subs, subs_status, subs_started , user);
+                console.log(subs_id , subs, subs_status, subs_started , user);
                 const result = await User.updateOne(
                     { _id: user._id },
                     {
@@ -73,12 +73,11 @@ exports.handleWebhook = async (req, res) => {
                       },
                     }
                   );
-                  // console.log(result);
+                  console.log(result);
             }
         break;
         default:
           // console.log("end");
-          return res.status(400).end();
     }
     res.sendStatus(200);
  }catch (err) {
