@@ -236,7 +236,7 @@ router.post("/update-detailsof-default-paymentmethod/:token", async (req, res) =
 
     res.status(200).json({
       status: "success",
-      message: "Card Details has been updated successfully!"
+      message: "Card Details have been updated successfully!"
       
     });
   } catch (err) {
@@ -263,8 +263,8 @@ router.get('/create-checkout-session/:token' , async (req,res) => {
       mode: 'setup',
       currency: 'usd',
       customer: customer_id,
-      success_url: 'http://127.0.0.1:5173/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://127.0.0.1:5173/cancel',
+      success_url: 'https://notegenie.vercel.app/success?session_id={CHECKOUT_SESSION_ID}',
+      cancel_url: 'http://notegenie.vercel.app/cancel',
     });
     // console.log("session" , session);
     res.status(200).json({
