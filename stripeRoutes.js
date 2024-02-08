@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const stripe = require("stripe")(process.env.STRIPE_PERSONAL_SECRET);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY_TEST);
 const User = require("./userModal");
 const axios = require("axios");
 router.get("/create-price", async (req, res) => {
@@ -70,9 +70,9 @@ router.post("/create-subscription", async (req, res) => {
     }
 
     let priceId;
-    if (plan == "basic") priceId = process.env.BASIC_PRICE_ID_ONEDAY_TEST;
+    if (plan == "basic") priceId = process.env.BASIC_PRICE_ID_TEST;
     else if (plan == "premium")
-      priceId = process.env.PREMIUM_PRICE_ID_ONEDAY_TEST;
+      priceId = process.env.PREMIUM_PRICE_ID_TEST;
     else return;
 
     const subs = await stripe.subscriptions.create({
@@ -264,7 +264,7 @@ router.get('/create-checkout-session/:token' , async (req,res) => {
       currency: 'usd',
       customer: customer_id,
       success_url: 'https://notegenie.vercel.app/success?session_id={CHECKOUT_SESSION_ID}',
-      cancel_url: 'http://notegenie.vercel.app/cancel',
+      cancel_url: 'https://notegenie.vercel.app/error',
     });
     // console.log("session" , session);
     res.status(200).json({
@@ -278,6 +278,8 @@ router.get('/create-checkout-session/:token' , async (req,res) => {
     res.status(500).send({ status: "error", message: err.message });
   }
 })
+
+
 router.post('/attatchPaymentMethodToSubs/:token' , async(req, res) => {
   try{
     const token = req.params.token;

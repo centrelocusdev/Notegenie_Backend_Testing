@@ -1,10 +1,10 @@
-const stripe = require("stripe")(process.env.STRIPE_PERSONAL_SECRET);
+const stripe = require("stripe")(process.env.STRIPE_SECRET_KEY_TEST);
 const User = require("./userModal");
 
 exports.handleWebhook = async (req, res) => {
     console.log("in the webhook");
  try{
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_TEST;
     // console.log(webhookSecret);
     let event;
     let eventType;
@@ -46,9 +46,9 @@ exports.handleWebhook = async (req, res) => {
                 let user = await User.findOne({ email: email });
                 const priceid = details.lines.data[0].plan.id;
                 let plan;
-                if(priceid === process.env.BASIC_PRICE_ID_ONEDAY_TEST){
+                if(priceid === process.env.BASIC_PRICE_ID_TEST){
                     plan = 'Basic'
-                }else if(priceid === process.env.PREMIUM_PRICE_ID_ONEDAY_TEST){
+                }else if(priceid === process.env.PREMIUM_PRICE_ID_TEST){
                     plan = 'Premium'
                 }
                 //subs details
