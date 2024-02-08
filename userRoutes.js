@@ -45,8 +45,11 @@ router.post("/getOtp", async (req, res) => {
     if (!email) {
       throw new Error("Email is required!");
     }
+    const isUserExistInDb = await User.findOne({ email: req.body.email });
+    if(isUserExistInDb){
+      throw new Error("User is already Exists!");
+    }
     const isUserExist = await User2F.findOne({ email: req.body.email });
-
     const otp = generateOTP();
     let user;
     if(isUserExist){
